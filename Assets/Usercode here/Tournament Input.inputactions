@@ -1,0 +1,171 @@
+{
+    "name": "Tournament Input",
+    "maps": [
+        {
+            "name": "Camera Control",
+            "id": "5aa7ad65-4700-4744-b7df-009f2edbd7c6",
+            "actions": [
+                {
+                    "name": "Arena Aerial Camera",
+                    "type": "Button",
+                    "id": "cd003909-bf20-47f8-a283-1e513910c53d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Free Look Camera",
+                    "type": "Button",
+                    "id": "f73cb534-21cb-4f9e-95c9-50df955e663b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Arena Camera A",
+                    "type": "Button",
+                    "id": "2fd5949e-a031-43a5-902f-47c4fe2a02cb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Arena Camera B",
+                    "type": "Button",
+                    "id": "2a1dad5c-cc27-4942-bb62-88b4207c46e2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Arena Camera C",
+                    "type": "Button",
+                    "id": "86ddd6e4-da1d-41f1-93ff-53f5d520d845",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Arena Finish Zone Camera",
+                    "type": "Button",
+                    "id": "de83ccda-5d55-498a-861b-36dfbd6d5f2b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Random Agent",
+                    "type": "Button",
+                    "id": "300269d1-2868-4b73-880c-370764ecf1bb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8ee1a8f2-4b26-4cc9-8ca7-4f1343d7487c",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Arena Aerial Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4bc69377-8c16-4773-99ec-016e29fc704c",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Free Look Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "29d0394d-3e9c-49fb-bc53-88bdd3ad415f",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Arena Camera A",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "07472978-7212-4ec6-8c21-f64957ce8258",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Arena Camera B",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b9d517c-a690-4a18-be6a-2fdbdd3c11a8",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Arena Camera C",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8cebad0-cb49-4a1e-8fe5-c691621482c8",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Arena Finish Zone Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3823900b-0647-43af-8e5c-f8f4b0480d27",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Random Agent",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard and Mouse",
+            "bindingGroup": "Keyboard and Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
