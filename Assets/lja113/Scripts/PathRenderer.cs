@@ -25,6 +25,7 @@ namespace lja113
 
         [Header("Movement Settings")]
         public float speed = 5f;
+        public float acceleration = 5f;
         public float reachThreshold = 1f;
 
         private int currentIndex = 0;
@@ -167,7 +168,6 @@ namespace lja113
             Vector3 desiredVel = toTargetFlat.normalized * speed;
 
             rb.linearVelocity = new Vector3(desiredVel.x, rb.linearVelocity.y, desiredVel.z);
-            // rb.AddForce(toTargetFlat.normalized * acceleration, ForceMode.Acceleration);
         
             Debug.DrawLine(start.position, worldTarget, Color.yellow);
             Debug.Log($"Heading to node {currentIndex}/{path.Count-1} at {worldTarget}");
