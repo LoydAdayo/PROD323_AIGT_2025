@@ -87,7 +87,7 @@ namespace lja113
                 // Check if the neighbouring node actually exist in the terrain
                 // y here is actually the z
                 bool doExist = (v.x >= 0 && v.x < tWidth && v.y >= 0 && v.y < tLength) ? true : false;
-                Debug.Log(dir.x + "," + dir.y + "," + n.nodePosition.X + "," + n.nodePosition.Y + "," + tWidth + "," + tLength);
+                //Debug.Log(dir.x + "," + dir.y + "," + n.nodePosition.X + "," + n.nodePosition.Y + "," + tWidth + "," + tLength);
                 if(!doExist)
                 {
                     continue;

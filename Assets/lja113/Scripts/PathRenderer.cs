@@ -23,6 +23,13 @@ namespace lja113
 
         public Algorithm algorithm = Algorithm.BreadthFirstSearch;
 
+        [Header("Movement Settings")]
+        public float speed = 5f;
+        public float reachThreshold = 1f;
+
+        private int currentIndex = 0;
+        private Rigidbody rb;
+
         [Header("Info Refs")]
         public TextMeshProUGUI startPosText;
         public TextMeshProUGUI endPosText;
@@ -34,22 +41,27 @@ namespace lja113
         private float gridOffset = 0.5f;
         private List<Node> path = new List<Node>();
 
-        void Start()
+        void Awake()
         {
             graph = new TerrainGraph();
             start = this.transform;
             end = GameObject.FindGameObjectWithTag("goal").transform;
 
-            Debug.LogWarning(graph);
+            //Debug.LogWarning(graph);
             Debug.LogWarning("Start Position: " + start);
             Debug.LogWarning("End Position: " + end);
+
+            rb = GetComponent<Rigidbody>();
+
+            RenderPath();
         }
 
         void Update()
         {
-            RenderPath();
+            
             //Debug.Log(path.Count);
             //UpdateInfo();
+            MoveAlongPath();
         }
 
         private void RenderPath()
@@ -117,6 +129,41 @@ namespace lja113
             // Render the path
             lr.positionCount = path.Count;
             lr.SetPositions(lineVertices);
+
+            // Debug nodes in path
+            /* Debug.LogWarning($"[Path] count = {path.Count}");
+            for (int i = 0; i < path.Count; i++)
+            {
+                var n = path[i];
+                Debug.LogWarning($"[Path] {i}: ({n.nodePosition.X}, {n.nodePosition.Y}), h={n.nodeHeight}");
+            } */
+        }
+
+        void MoveAlongPath()
+        {
+            if (path == null || currentIndex >= path.Count) return;
+
+            // Destination of current node
+            Node n = path[currentIndex];
+            Vector3 dest = new Vector3(
+                n.nodePosition.X + gridOffset,
+                n.nodeHeight,
+                n.nodePosition.Y + gridOffset
+            );
+
+            Vector3 dir = dest - start.position;
+            if (dir.magnitude <= reachThreshold)
+            {
+                currentIndex++;
+                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            }
+            else
+            {
+                // compute desired horizontal velocity
+                Vector3 desiredVel = dir.normalized * speed;
+                // preserve current vertical velocity (gravity, jumps, etc.)
+                rb.linearVelocity = new Vector3(desiredVel.x, rb.linearVelocity.y, desiredVel.z);
+            }
         }
 
         private void UpdateInfo()
