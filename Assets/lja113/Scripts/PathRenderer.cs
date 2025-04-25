@@ -141,29 +141,36 @@ namespace lja113
 
         void MoveAlongPath()
         {
-            if (path == null || currentIndex >= path.Count) return;
-
             // Destination of current node
             Node n = path[currentIndex];
-            Vector3 dest = new Vector3(
+            Vector3 worldTarget = new Vector3(
                 n.nodePosition.X + gridOffset,
-                n.nodeHeight,
+                start.position.y,
                 n.nodePosition.Y + gridOffset
             );
 
-            Vector3 dir = dest - start.position;
-            if (dir.magnitude <= reachThreshold)
+            // Calculate Direction & flatten distance
+            Vector3 toTarget = worldTarget - start.position;
+            Vector3 toTargetFlat = new Vector3(toTarget.x, 0, toTarget.z);
+            float flatDist = toTargetFlat.magnitude;
+
+            // Has reached node target or no?
+            if (flatDist <= reachThreshold)
             {
+                Debug.Log($"Reached node {currentIndex}, advancing to {currentIndex+1}");
                 currentIndex++;
+                // zero horizontal velocity so not carry on
                 rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+                return;
             }
-            else
-            {
-                // compute desired horizontal velocity
-                Vector3 desiredVel = dir.normalized * speed;
-                // preserve current vertical velocity (gravity, jumps, etc.)
-                rb.linearVelocity = new Vector3(desiredVel.x, rb.linearVelocity.y, desiredVel.z);
-            }
+
+            Vector3 desiredVel = toTargetFlat.normalized * speed;
+
+            rb.linearVelocity = new Vector3(desiredVel.x, rb.linearVelocity.y, desiredVel.z);
+            // rb.AddForce(toTargetFlat.normalized * acceleration, ForceMode.Acceleration);
+        
+            Debug.DrawLine(start.position, worldTarget, Color.yellow);
+            Debug.Log($"Heading to node {currentIndex}/{path.Count-1} at {worldTarget}");
         }
 
         private void UpdateInfo()
