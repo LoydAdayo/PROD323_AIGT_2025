@@ -170,6 +170,9 @@ MonoBehaviour:
   speed: 5
   acceleration: 5
   reachThreshold: 0.2
+  sideAmp: 1
+  stuckThresholdTime: 2.5
+  unstuckSideForce: 10
   startPosText: {fileID: 0}
   endPosText: {fileID: 0}
   accumulatedCostText: {fileID: 0}
@@ -230,7 +233,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.24324417
+        value: 0.0090065
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -242,7 +245,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0.049950123, a: 1}
+      key0: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

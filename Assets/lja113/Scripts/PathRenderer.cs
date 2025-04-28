@@ -33,6 +33,8 @@ namespace lja113
         private float stuckTimer = 0f;
         public float stuckThresholdTime = 2.5f;
         public float unstuckSideForce = 10f;
+        private Vector3 lastPosition;
+        public float teleportThreshold = 5f;
 
         private int currentIndex = 0;
         private Rigidbody rb;
@@ -61,6 +63,8 @@ namespace lja113
             rb = GetComponent<Rigidbody>();
 
             RenderPath();
+            
+            lastPosition = transform.position;
         }
 
         void Update()
@@ -69,6 +73,8 @@ namespace lja113
             //UpdateInfo();
             MoveAlongPath();
             Debug.Log($"Velocity: {new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude}");
+
+            DetectTeleport();
         }
 
         private void RenderPath()
@@ -210,6 +216,19 @@ namespace lja113
         
             Debug.DrawLine(start.position, worldTarget, Color.yellow);
             //Debug.Log($"Heading to node {currentIndex}/{path.Count-1} at {worldTarget}");
+        }
+
+        private void DetectTeleport()
+        {
+            float distanceMoved = Vector3.Distance(transform.position, lastPosition);
+
+            if (distanceMoved >= teleportThreshold)
+            {
+                Debug.LogWarning($"Massive movement detected! Resetting path to start. Distance moved: {distanceMoved:F2}");
+                currentIndex = 0; 
+            }
+
+            lastPosition = transform.position;
         }
     }
 
