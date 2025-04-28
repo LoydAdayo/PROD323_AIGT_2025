@@ -83,12 +83,12 @@ namespace lja113
 
             switch (algorithm)
             {
-                case Algorithm.BreadthFirstSearch:
+                /* case Algorithm.BreadthFirstSearch:
                     path = PathAlgorithm.BFS(graph, startNode, endNode);
                     break;
                 case Algorithm.Dijkstra:
                     path = PathAlgorithm.Dijkstra(graph, startNode, endNode);
-                    break;
+                    break; */
                 case Algorithm.AStar:
                     path = PathAlgorithm.AStar(graph, startNode, endNode, (int)Algorithm.AStar);
                     break;
