@@ -57,8 +57,8 @@ namespace lja113
             end = GameObject.FindGameObjectWithTag("goal").transform;
 
             //Debug.LogWarning(graph);
-            Debug.LogWarning("Start Position: " + start);
-            Debug.LogWarning("End Position: " + end);
+            //Debug.LogWarning("Start Position: " + start);
+            //Debug.LogWarning("End Position: " + end);
 
             rb = GetComponent<Rigidbody>();
 
@@ -69,10 +69,8 @@ namespace lja113
 
         void Update()
         {
-            //Debug.Log(path.Count);
-            //UpdateInfo();
             MoveAlongPath();
-            Debug.Log($"Velocity: {new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude}");
+            //Debug.Log($"Velocity: {new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude}");
 
             DetectTeleport();
         }
@@ -92,7 +90,6 @@ namespace lja113
             Node endNode = graph.grid[endX, endZ];
 
             // Get list of nodes making the path based on selected algorithm
-
             switch (algorithm)
             {
                 /* case Algorithm.BreadthFirstSearch:
@@ -122,8 +119,6 @@ namespace lja113
             {
                 Debug.Log("No path found");
             }
-
-
 
             // Create the line using an array of vertices based on the nodes in the path
             // Grid offset points to the center of the node cell
@@ -206,7 +201,7 @@ namespace lja113
                 
                 rb.AddForce(sideDir * unstuckSideForce, ForceMode.VelocityChange);
                 
-                Debug.Log($"Vehicle stuck — jerking {(jerkRight ? "right" : "left")}!");
+                //Debug.Log($"Vehicle stuck — jerking {(jerkRight ? "right" : "left")}!");
 
                 stuckTimer = 0f; // Reset timer after jerk
             }
@@ -224,7 +219,7 @@ namespace lja113
 
             if (distanceMoved >= teleportThreshold)
             {
-                Debug.LogWarning($"Massive movement detected! Resetting path to start. Distance moved: {distanceMoved:F2}");
+                //Debug.LogWarning($"Massive movement detected! Resetting path to start. Distance moved: {distanceMoved:F2}");
                 currentIndex = 0; 
             }
 
