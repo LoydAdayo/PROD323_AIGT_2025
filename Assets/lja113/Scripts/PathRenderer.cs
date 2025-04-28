@@ -25,8 +25,14 @@ namespace lja113
 
         [Header("Movement Settings")]
         public float speed = 5f;
-        public float acceleration = 5f;
-        public float reachThreshold = 1f;
+        public float acceleration = 9f;
+        public float reachThreshold = 10f;
+        public float sideAmp = 1f;
+        [Header("Stuck Settings")]
+        private int stuckNodeIndex = -1;
+        private float stuckTimer = 0f;
+        public float stuckThresholdTime = 2.5f;
+        public float unstuckSideForce = 10f;
 
         private int currentIndex = 0;
         private Rigidbody rb;
@@ -59,10 +65,10 @@ namespace lja113
 
         void Update()
         {
-            
             //Debug.Log(path.Count);
             //UpdateInfo();
             MoveAlongPath();
+            Debug.Log($"Velocity: {new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude}");
         }
 
         private void RenderPath()
@@ -130,14 +136,6 @@ namespace lja113
             // Render the path
             lr.positionCount = path.Count;
             lr.SetPositions(lineVertices);
-
-            // Debug nodes in path
-            /* Debug.LogWarning($"[Path] count = {path.Count}");
-            for (int i = 0; i < path.Count; i++)
-            {
-                var n = path[i];
-                Debug.LogWarning($"[Path] {i}: ({n.nodePosition.X}, {n.nodePosition.Y}), h={n.nodeHeight}");
-            } */
         }
 
         void MoveAlongPath()
@@ -158,27 +156,60 @@ namespace lja113
             // Has reached node target or no?
             if (flatDist <= reachThreshold)
             {
-                Debug.Log($"Reached node {currentIndex}, advancing to {currentIndex+1}");
+                //Debug.Log($"Reached node {currentIndex}, advancing to {currentIndex+1}");
                 currentIndex++;
                 // zero horizontal velocity so not carry on
                 rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
                 return;
             }
 
+            // check if stuck:
+            if (currentIndex == stuckNodeIndex)
+            {
+                stuckTimer += Time.deltaTime;
+            }
+            else
+            {
+                stuckNodeIndex = currentIndex;
+                stuckTimer = 0f;
+            }
+
+            
             Vector3 desiredVel = toTargetFlat.normalized * speed;
 
+            // Add constant side amplitude
+            Vector3 sideDir = Vector3.Cross(Vector3.up, toTargetFlat.normalized).normalized;
+            Vector3 sideVel = sideDir * sideAmp;
+            desiredVel += sideVel;
+
+            // If stuck too long, apply sideways force
+            if (stuckTimer >= stuckThresholdTime)
+            {
+                toTargetFlat = new Vector3(
+                    (path[currentIndex].nodePosition.X + gridOffset) - start.position.x,
+                    0,
+                    (path[currentIndex].nodePosition.Y + gridOffset) - start.position.z
+                ).normalized;
+
+                bool jerkRight = Random.value > 0.5f; // random left or right
+
+                if (jerkRight)
+                    sideDir = Vector3.Cross(Vector3.up, toTargetFlat.normalized).normalized;
+                else
+                    sideDir = Vector3.Cross(toTargetFlat.normalized, Vector3.up).normalized;
+                
+                rb.AddForce(sideDir * unstuckSideForce, ForceMode.VelocityChange);
+                
+                Debug.Log($"Vehicle stuck — jerking {(jerkRight ? "right" : "left")}!");
+
+                stuckTimer = 0f; // Reset timer after jerk
+            }
+            
+            // Apply velocity to the Rigidbody
             rb.linearVelocity = new Vector3(desiredVel.x, rb.linearVelocity.y, desiredVel.z);
         
             Debug.DrawLine(start.position, worldTarget, Color.yellow);
-            Debug.Log($"Heading to node {currentIndex}/{path.Count-1} at {worldTarget}");
-        }
-
-        private void UpdateInfo()
-        {
-            startPosText.text = "(" + Mathf.FloorToInt(start.transform.position.x) + ", " + Mathf.FloorToInt(start.transform.position.z) + ")";
-            endPosText.text = "(" + Mathf.FloorToInt(end.transform.position.x) + ", " + Mathf.FloorToInt(end.transform.position.z) + ")";
-            accumulatedCostText.text = PathAlgorithm.totalCost.ToString();
-            nodeNumText.text = path.Count.ToString();
+            //Debug.Log($"Heading to node {currentIndex}/{path.Count-1} at {worldTarget}");
         }
     }
 

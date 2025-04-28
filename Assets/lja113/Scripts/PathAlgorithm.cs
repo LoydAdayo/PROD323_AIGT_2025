@@ -194,16 +194,24 @@ namespace lja113
                 // Check if each of the current node's neighbours have been visited
                 foreach (Node adjacentNode in tGraph.GetNeighbours(currentNode))
                 {
-                    if (!visitedNodes.ContainsKey(adjacentNode))
+                    if (!visitedNodes.ContainsKey(adjacentNode)) 
                     {
                         // If the neighbour has not been visited before, then calculate an estimated new cost by
                         // adding the accumulated cost of the current node and the next minimum cost of the current node (see TerrainGraph)
-                        float newCost = accumulatedCost[currentNode] + tGraph.NextMinimumCost(currentNode);
+                        /// float newCost = accumulatedCost[currentNode] + tGraph.NextMinimumCost(currentNode);
+
+                        float flatCost = tGraph.NextMinimumCost(currentNode);
+
+                        float heightDifference = Mathf.Abs(currentNode.nodeHeight - adjacentNode.nodeHeight);
+
+                        float heightPenaltyFactor = 7f; 
+
+                        float newCost = accumulatedCost[currentNode] + flatCost + (heightDifference * heightPenaltyFactor);
 
                         // Now, check if the cost of the neighbouring node has been accounted for already or
                         // if the new estimated cost is smaller than the current cost of the neighbouring node. 
                         if (!accumulatedCost.ContainsKey(adjacentNode) || newCost < accumulatedCost[adjacentNode])
-                        {
+                        {   
                             // The accumulated cost of the neighbouring node will take the new estimated cost
                             accumulatedCost[adjacentNode] = newCost;
 
